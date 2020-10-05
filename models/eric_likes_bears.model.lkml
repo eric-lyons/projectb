@@ -8,6 +8,8 @@ datagroup: eric_likes_bears_default_datagroup {
   max_cache_age: "1 hour"
 }
 
+explore: NJ_TEST {}
+
 persist_with: eric_likes_bears_default_datagroup
 
 explore: connection_reg_r3 {}
