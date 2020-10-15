@@ -1,5 +1,8 @@
 view: events {
-  sql_table_name: demo_db.events ;;
+  sql_table_name:
+    -- if prod -- demo_db.events2
+    -- if dev -- demo_db.events
+;;
   drill_fields: [id]
 
   dimension: id {
@@ -7,6 +10,36 @@ view: events {
     type: number
     sql: ${TABLE}.id ;;
   }
+
+  parameter: test_param {
+    type: unquoted
+
+  }
+
+  filter: date_filter {
+    type: date
+  }
+
+  parameter: country {
+    type: string
+    allowed_value: {label: "UK" value: "UK"}
+    allowed_value: {label: "US" value: "US"}
+    allowed_value: {label: "CHINA" value: "CHINA"}
+  }
+
+  dimension: test_dynamic {
+    sql:
+    CASE
+    WHEN {% parameter country %} = 'UK' THEN ${user_id}
+    WHEN {% parameter country %} = 'US' THEN ${created_week}
+    WHEN {% parameter country %} = 'CHINA' THEN ${type_id}
+    END ;;
+  }
+  # dimension: param_value {
+  #   type: string
+  #   sql: 1 ;;
+  #   html: {% test_param._parameter_value %} ;;
+  # }
 
   dimension_group: created {
     type: time

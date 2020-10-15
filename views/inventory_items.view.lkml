@@ -8,6 +8,12 @@ view: inventory_items {
     sql: ${TABLE}.id ;;
   }
 
+  measure: max_date_test {
+    type: date
+    sql: MAX(${created_raw}) ;;
+   convert_tz: no
+  }
+
   dimension: cost {
     type: number
     sql: ${TABLE}.cost ;;

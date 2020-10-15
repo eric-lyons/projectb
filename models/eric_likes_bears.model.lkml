@@ -1,4 +1,4 @@
-connection: "thelook"
+connection: "@{connect}"
 
 # include all the views
 include: "/views/**/*.view"
@@ -8,19 +8,26 @@ datagroup: eric_likes_bears_default_datagroup {
   max_cache_age: "1 hour"
 }
 
+
+
+###HELLO
+
 explore: NJ_TEST {}
 
 persist_with: eric_likes_bears_default_datagroup
 
 explore: connection_reg_r3 {}
 
+explore: TIME_TEST {}
 
 explore: events {
   join: users {
     type: left_outer
+    view_label: "Events"
     sql_on: ${events.user_id} = ${users.id} ;;
     relationship: many_to_one
   }
+  sql_always_where: {% date_start events.date_filter %} = ${users.created_date} ;;
 }
 
 explore: flights {}

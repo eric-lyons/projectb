@@ -63,6 +63,11 @@ view: NJ_TEST {
     sql: ${TABLE}.`users.first_name` ;;
   }
 
+  dimension: change_this_name {
+    type: string
+    sql: ${TABLE}.`users.first_name` ;;
+  }
+
   dimension: users_gender {
     type: string
     sql: ${TABLE}.`users.gender` ;;
