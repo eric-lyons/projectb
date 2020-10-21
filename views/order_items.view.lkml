@@ -20,6 +20,11 @@ view: order_items {
     sql: ${TABLE}.order_id ;;
   }
 
+  filter: test_timezone_filter {
+    type: date_time
+    convert_tz: no
+  }
+
   dimension_group: returned {
     type: time
     timeframes: [
@@ -31,7 +36,7 @@ view: order_items {
       quarter,
       year
     ]
-    sql: ${TABLE}.returned_at ;;
+    sql: CONVERT_TZ(${TABLE}.returned_at,'US/Eastern','Europe/Paris') ;;
   }
 
   dimension: sale_price {

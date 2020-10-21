@@ -1,11 +1,6 @@
-view: filterval {
-  derived_table: {
-    sql: SELECT
-    '{{_filters['users.state']}}' AS `filter_value`;;}}
-
 view: users {
   sql_table_name: demo_db.users ;;
-  drill_fields: [id]
+
 
     parameter: state_picker {
       label: "state_picker"
@@ -34,16 +29,17 @@ view: users {
   }
 
 
-  measure: testval {
-    type: number
-    sql: CASE WHEN (SELECT `filter_value` from ${filterval.SQL_TABLE_NAME}) = 'New Jersey' AND {% parameter state_picker %} = 'NJ' THEN 3
-          WHEN {% parameter state_picker %} = 'PA' THEN 2
-           WHEN {% parameter state_picker %} = 'MASS' THEN 3
-          WHEN {% parameter state_picker %} = 'DEL' THEN 1
 
-          ELSE 50
-          END;;
-  }
+  # measure: testval {
+  #   type: number
+  #   sql: CASE WHEN (SELECT `filter_value` from ${filterval.SQL_TABLE_NAME}) = 'New Jersey' AND {% parameter state_picker %} = 'NJ' THEN 3
+  #         WHEN {% parameter state_picker %} = 'PA' THEN 2
+  #         WHEN {% parameter state_picker %} = 'MASS' THEN 3
+  #         WHEN {% parameter state_picker %} = 'DEL' THEN 1
+
+  #         ELSE 50
+  #         END;;
+  # }
 
 
   dimension: eric_order_field {

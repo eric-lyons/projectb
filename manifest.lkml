@@ -7,7 +7,7 @@ project_name: "eric_likes_bears"
 #   project: "name_of_other_project"
 # }
 constant: connect {
-  value: "thelook"
+  value: "snowflakelooker"
   export: override_required
 
 
