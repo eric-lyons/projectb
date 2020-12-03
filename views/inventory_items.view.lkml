@@ -33,6 +33,22 @@ view: inventory_items {
     sql: ${TABLE}.created_at ;;
   }
 
+  dimension: diff {
+    sql: DATEDIFF(${sold_date}, ${created_date}) ;;
+    type: number
+  }
+
+  dimension: only_positive {
+    type: number
+    sql:  CASE WHEN ${diff} >= 0 THEN ${diff}
+    ELSE NULL END;;
+  }
+
+  measure: average_diff {
+    sql: ${only_positive} ;;
+    type: average
+  }
+
   dimension: product_id {
     type: number
     # hidden: yes

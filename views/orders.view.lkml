@@ -2,6 +2,10 @@ view: orders {
   sql_table_name: demo_db.orders ;;
   drill_fields: [id]
 
+  parameter: string {
+    type: string
+  }
+
   dimension: id {
     primary_key: yes
     type: number
@@ -20,6 +24,40 @@ view: orders {
       year
     ]
     sql: ${TABLE}.created_at ;;
+  }
+
+  parameter: date_param {
+    type: date
+  }
+
+  dimension: dimension_day1 {
+    type: date
+    sql: {% parameter  date_param %} ;;
+  }
+
+  dimension: dimension_day2 {
+    type: date
+    sql: DATE_ADD(${dimension_day1}, INTERVAL -1 DAY);;
+  }
+
+  dimension: yesno_day1 {
+    type: yesno
+    sql: ${created_date} = ${dimension_day1} ;;
+  }
+
+  dimension: yesno_day2 {
+    type: yesno
+    sql: ${created_date} = ${dimension_day2} ;;
+  }
+
+  measure: measure_day1 {
+    type: count
+    filters: [yesno_day1: "yes"]
+  }
+
+  measure: measure_day2 {
+    type: count
+    filters: [yesno_day2: "yes"]
   }
 
   dimension: eric_order {
@@ -43,6 +81,10 @@ view: orders {
 
   measure: count {
     type: count
-    drill_fields: [id, users.last_name, users.id, users.first_name, order_items.count]
+    link: {
+      label: "Drill Explore"
+      url:"/explore/BigQuery/mvw_ft_orderitems?qid=fZew8NuVsyLURVkfCA0QCZ&origin_space=undefined&toggle=vis
+      "
+    }
   }
 }

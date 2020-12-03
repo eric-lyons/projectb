@@ -1,16 +1,46 @@
 view: users {
   sql_table_name: demo_db.users ;;
+  view_label: "Users                                          (more info will be added a a later date. This comes from the demo DB)"
 
 
     parameter: state_picker {
       label: "state_picker"
       type: string
-      allowed_value: { value: "PA" }
-      allowed_value: { value: "MASS" }
-      allowed_value: { value: "DL" }
-      allowed_value: { value: "NJ" }
-      default_value: "RI"
+      # allowed_value: { value: "PA" }
+      # allowed_value: { value: "MASS" }
+      # allowed_value: { value: "DL" }
+      # allowed_value: { value: "NJ" }
+      # default_value: "RI"
     }
+
+    filter: does_this_work {
+      type: string
+    }
+
+  parameter: parameter_named_string {
+    type: string
+  }
+
+  dimension: test_list {
+    html: {% if test_list._is_filtered %} {{value}} {% else %} {% endif %} ;;
+    sql: {% parameter state_picker %} ;;
+
+  }
+
+  dimension: contain_string {
+    type: string
+    sql: CONCAT('%',{% parameter parameter_named_string %},'%') ;;
+  }
+
+  dimension: yesno_filter {
+    type: yesno
+    sql: ${state} LIKE ${contain_string} ;;
+  }
+
+  dimension: namedimension {
+   type: string
+  sql: "Hello Old Friend" ;;
+  }
 
   dimension: id {
     primary_key: yes
@@ -21,7 +51,27 @@ view: users {
   dimension: age {
     type: number
     sql: ${TABLE}.age ;;
+
+   }
+
+
+parameter: change {
+   allowed_value: {
+    label: "Total Sale Price"
+    value: "sale_price"
   }
+  allowed_value: {
+    label: "Total Cost"
+    value: "cost"
+  }
+  allowed_value: {
+    label: "Total Profit"
+    value: "profit"
+  }
+}
+    filter: dynamic_filter {
+      type: string
+    }
 
   dimension: city {
     type: string
@@ -42,13 +92,13 @@ view: users {
   # }
 
 
-  dimension: eric_order_field {
-    type: string
-    sql:
-    (
-      SELECT ${TABLE}.state ORDER BY ${TABLE}.state DESC;
-    ) ;;
-  }
+  # dimension: eric_order_field {
+  #   type: string
+  #   sql:
+  #   (
+  #     SELECT ${TABLE}.state ORDER BY ${TABLE}.state DESC;
+  #   ) ;;
+  # }
 
   dimension: country {
     type: string
@@ -65,7 +115,8 @@ view: users {
       week,
       month,
       quarter,
-      year
+      year,
+      month_num
     ]
     sql: ${TABLE}.created_at ;;
   }
@@ -93,6 +144,10 @@ view: users {
   dimension: state {
     type: string
     sql: ${TABLE}.state ;;
+    link: {
+      label: "TEST Drill Look"
+      url:"/looks/1955"
+    }
   }
 
   dimension: zip {
@@ -102,12 +157,12 @@ view: users {
 
   measure: count1 {
     type: count
-    filters: {field: state value:"New Jersey"}
+    filters: {field: gender value:"m"}
   }
 
   measure: count2 {
     type: count
-    filters: {field: state value:"New York"}
+    filters: {field: gender value:"f"}
   }
 
   measure: percentile {
@@ -136,6 +191,7 @@ view: users {
   measure: count {
     type: count
     drill_fields: [detail*]
+
   }
 
   # ----- Sets of fields for drilling ------

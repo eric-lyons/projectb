@@ -16,8 +16,13 @@ view: events {
 
   }
 
-  filter: date_filter {
+  filter: cool_date_filter {
     type: date
+  }
+
+  dimension: date_filter_diff {
+    type: number
+    sql: DATEDIFF({% date_start cool_date_filter %}, {% date_end cool_date_filter %}) ;;
   }
 
   parameter: country {

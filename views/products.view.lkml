@@ -18,6 +18,11 @@ view: products {
     sql: ${TABLE}.category ;;
   }
 
+  measure: category_2 {
+    type: string
+    sql: ${TABLE}.category ;;
+  }
+
   dimension: department {
     type: string
     sql: ${TABLE}.department ;;

@@ -44,6 +44,19 @@ view: order_items {
     sql: ${TABLE}.sale_price ;;
   }
 
+  dimension: date_yesno {
+    type: yesno
+    sql: ISNULL(${returned_date}) = 1 ;;
+  }
+
+  measure: null_filtered_measure {
+    type: count
+      filters: {
+        field: date_yesno
+        value: "yes"
+      }
+  }
+
   measure: count {
     type: count
     drill_fields: [id, orders.id, inventory_items.id]
