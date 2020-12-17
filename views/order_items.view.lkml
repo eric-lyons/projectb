@@ -1,6 +1,7 @@
 view: order_items {
   sql_table_name: demo_db.order_items ;;
   drill_fields: [id]
+  view_label: "10"
 
   dimension: id {
     primary_key: yes
@@ -8,10 +9,33 @@ view: order_items {
     sql: ${TABLE}.id ;;
   }
 
+  parameter: pick_dimension {
+    allowed_value: { value: "inventory" }
+    allowed_value: { value: "order" }
+    allowed_value: { value: "price" }
+  }
+
   dimension: inventory_item_id {
     type: number
     # hidden: yes
     sql: ${TABLE}.inventory_item_id ;;
+  }
+
+  dimension: dynamic_field {
+    type: number
+    sql:
+    CASE
+    WHEN {% parameter pick_dimension %} = 'inventory' THEN ${inventory_item_id}
+    WHEN {% parameter pick_dimension %} = 'order' THEN ${order_id}
+    WHEN {% parameter pick_dimension %} = 'prce' THEN ${sale_price}
+    ELSE NULL
+    END ;;
+
+  }
+
+  measure: dynamic_measure {
+    type: sum
+    sql: ${dynamic_field} ;;
   }
 
   dimension: order_id {

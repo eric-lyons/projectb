@@ -58,6 +58,7 @@ view: events {
       year
     ]
     sql: ${TABLE}.created_at ;;
+    html: {{ rendered_value | date: "%d %m, %yyyy" }} ;;
   }
 
   dimension: type_id {

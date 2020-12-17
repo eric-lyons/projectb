@@ -115,9 +115,22 @@ explore: user_data {
   }
 }
 
+test: order_id_is_unique {
+  explore_source: orders {
+    column: id {}
+    column: count {}
+    sorts: [orders.count: desc]
+    limit: 1
+  }
+  assert: order_id_is_unique {
+    expression: ${orders.count} = 1 ;;
+  }
+}
+
 explore: users {
   from: users
   view_name: users
+ # sql_always_where: ${letter_yesno} =  True ;;
 }
 
 explore: extended_users_explore  {

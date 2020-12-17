@@ -81,10 +81,26 @@ view: orders {
 
   measure: count {
     type: count
-    link: {
-      label: "Drill Explore"
-      url:"/explore/BigQuery/mvw_ft_orderitems?qid=fZew8NuVsyLURVkfCA0QCZ&origin_space=undefined&toggle=vis
-      "
-    }
+    html:
+    {% if value < 100 %}
+    <div class="vis" style="width: 400px; background-color: #808080; border: 2px solid #000;
+    border-radius: 15px; -moz-border-radius: 15px">
+
+    <div class="vis-single-value" style="background-color: red; font-color:white; width: 200px; border: 2px solid #000;
+    border-radius: 15px; -moz-border-radius: 15px;">{{ rendered_value }}</div></div>
+
+    {% elsif value >1000 %}
+     <div class="vis" style="width: 400px; background-color:#808080; border: 2px solid #000;
+    border-radius: 15px; -moz-border-radius: 15px">
+    <div class="vis-single-value" style="background-color: blue; font-color:white; width: 300px;  border: 2px solid #000;
+    border-radius: 15px; -moz-border-radius: 15px;">{{ rendered_value }}
+    </div></div>
+    {% else %}
+     <div class="vis" style="width: 400px; background-color:  #808080; border: 2px solid #000;
+    border-radius: 15px; -moz-border-radius: 15px">
+    <div class="vis-single-value" style="background-color: black; font-color:white;  width: 400px;  border: 2px solid #000;
+    border-radius: 15px; -moz-border-radius: 15px;">{{ rendered_value }}
+    </div></div>
+    {% endif %};;
   }
 }

@@ -18,6 +18,12 @@ view: products {
     sql: ${TABLE}.category ;;
   }
 
+  dimension: hashed {
+    type: string
+    sql: ${brand} ;;
+    html:  {{ products.category._value |  md5 }} ;;
+  }
+
   measure: category_2 {
     type: string
     sql: ${TABLE}.category ;;
