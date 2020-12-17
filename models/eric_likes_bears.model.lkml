@@ -8,6 +8,16 @@ datagroup: eric_likes_bears_default_datagroup {
   max_cache_age: "1 hour"
 }
 
+test: status_is_not_null {
+  explore_source: orders {
+    column: status {}
+    sorts: [orders.status: desc]
+    limit: 1
+  }
+  assert: status_is_not_null {
+    expression: NOT is_null(${orders.status}) ;;
+  }
+}
 
 
 ###HELLO
