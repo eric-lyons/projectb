@@ -1,15 +1,51 @@
 view: events {
-  sql_table_name:
-    -- if prod -- demo_db.events2
-    -- if dev -- demo_db.events
+  sql_table_name: demo_db.events
 ;;
   drill_fields: [id]
+
+  filter: date_filter {
+    type: date
+    suggestions: ["five days", "four days", "three days"]
+  }
+
+  dimension: filter_val1 {
+    type: string
+    sql: {% date_start events.date_filter %} ;;
+  }
+
+  dimension: filter_val2 {
+    type: string
+    sql: {% date_end events.date_filter %} ;;
+  }
+
+
+
+  parameter: date {
+    type: number
+    allowed_value: {label: "5 days ago" value: "5"}
+    allowed_value: {label: "4 days ago" value: "4"}
+    allowed_value: {label: "3 days ago" value: "3"}
+    allowed_value: {label: "2 days ago" value: "2"}
+    allowed_value: {label: "1 days ago" value: "1"}
+  }
+
+  dimension: date_field_relative {
+    type: date
+    sql: CURDATE() ;;
+  }
+
+
 
   dimension: id {
     primary_key: yes
     type: number
     sql: ${TABLE}.id ;;
   }
+
+  parameter: date_parameter {
+    type: date_time
+  }
+
 
   parameter: test_param {
     type: unquoted

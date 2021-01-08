@@ -18,6 +18,12 @@ view: inventory_items {
   dimension: cost {
     type: number
     sql: ${TABLE}.cost ;;
+
+  }
+
+  measure: max_cost {
+    type: max
+    sql: ${cost} ;;
   }
 
   dimension_group: created {

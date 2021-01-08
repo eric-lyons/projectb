@@ -2,6 +2,33 @@ view: users {
   sql_table_name: demo_db.users ;;
   view_label: " 1"
 
+
+  filter: date_filter {
+    type: date
+  }
+
+  dimension: filter_val1 {
+    type: date
+    sql: {% date_start date_filter %} ;;
+  }
+
+  dimension: filter_val2 {
+    type: date
+    sql: {% date_end date_filter %} ;;
+  }
+
+  dimension: conditional {
+    type: yesno
+    sql: ${filter_val1} >= ${filter_val2} ;;
+  }
+
+  dimension: result_date {
+    sql: CASE WHEN ${conditional} = TRUE THEN ${filter_val1}
+    ELSE ${filter_val2} END ;;
+
+
+}
+
     parameter: state_picker {
       label: "state_picker"
       type: string
@@ -12,6 +39,7 @@ view: users {
       # allowed_value: { value: "NJ" }
       # default_value: "RI"
     }
+    #New stuff
 
   parameter: starting_letter {
     label: "starting letter"
@@ -114,7 +142,7 @@ view: users {
 
 
 
-    filter: does_this_work {
+    filter:test_filter {
       type: string
       suggest_dimension: state
     }
@@ -286,6 +314,34 @@ parameter: change {
     }
   }
 
+  dimension: crazy_test {
+    type: string
+    sql: CASE WHEN ${created_year} = YEAR(CURDATE())-1 THEN CONCAT(" ",CAST(YEAR(CURDATE()) AS CHAR))
+    ELSE CAST(${created_year} AS CHAR) END ;;
+
+  }
+  parameter:  test_param {
+    type: string
+    allowed_value: {value:"Current"}
+    allowed_value: {value:"Last year"}
+    allowed_value: {value:"2 years ago"}
+    allowed_value: {value:"2020"}
+    allowed_value: {value:"2019"}
+    allowed_value: {value:"2018"}
+  }
+
+  dimension:  test_dim_param {
+    sql: CASE
+             WHEN {% parameter test_param %} = 'Current' THEN CAST(YEAR(CURDATE()) AS CHAR)
+             WHEN {% parameter test_param %} = 'Last year' THEN CAST(YEAR(CURDATE()) - 1 AS CHAR)
+             WHEN {% parameter test_param %} = '2 years ago' THEN CAST(YEAR(CURDATE()) - 2 AS CHAR)
+             WHEN {% parameter test_param %} = '2020' THEN '2020'
+             WHEN {% parameter test_param %} = '2019' THEN '2019'
+            WHEN {% parameter test_param %} = '2018' THEN '2018'
+             ELSE NULL
+            END ;;
+  }
+
   dimension: I_walk_in{
     type: string
     sql: CONCAT("I walk in ", CAST(${created_date} AS CHAR)) ;;
@@ -335,11 +391,32 @@ parameter: change {
     sql: ${sum2}/${count1} ;;
   }
 
+  measure: ounces {
+  type: count
+  html: {{ value | divided_by: 16 | round: 2 }} lbs {{ value | modulo: 16 | round: 2 }} ounces ;;
+  }
+
+    measure: feet {
+      type: count
+      html: {{ value | divided_by: 12 | round: 2 }} feet {{ value | modulo: 12 | round: 2 }} inches ;;
+    }
+
   measure: count {
     type: count
     drill_fields: [detail*]
-    html: <div style="background-color:red;"> {{first_name._rendered_value}} </div> ;;
+    html:
+    {% if {{value}} >= 1 %}
+    {{ rendered_value }}
+    {% elsif {{value}} < 1  %}
+    {{ value |  round: 3 | times: 100 }}%
+    {% endif %}
+    ;;
 
+  }
+
+  dimension:  eric_test_this {
+    type: yesno
+    sql: ${age} = 29 or ${age} = 33 ;;
   }
 
   # ----- Sets of fields for drilling ------

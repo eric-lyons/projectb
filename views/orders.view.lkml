@@ -6,6 +6,22 @@ view: orders {
     type: string
   }
 
+
+  parameter: date {
+    type: number
+    allowed_value: {label: "5 days ago" value: "5"}
+    allowed_value: {label: "4 days ago" value: "4"}
+    allowed_value: {label: "3 days ago" value: "3"}
+    allowed_value: {label: "2 days ago" value: "2"}
+    allowed_value: {label: "1 days ago" value: "1"}
+  }
+
+  dimension: date_field_relative {
+    type: date
+    sql: DATE_SUB(CURDATE(), INTERVAL {% parameter date %} DAY) ;;
+  }
+
+
   dimension: id {
     primary_key: yes
     type: number

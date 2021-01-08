@@ -24,6 +24,8 @@ test: status_is_not_null {
 
 explore: NJ_TEST {}
 
+explore: pivot_ndt {}
+
 persist_with: eric_likes_bears_default_datagroup
 
 explore: connection_reg_r3 {}
@@ -50,6 +52,7 @@ explore: inventory_items {
 }
 
 explore: order_items {
+  always_filter: {filters:[users.test_filter: "New^_Jersey, New^_York"]}
   join: orders {
     type: left_outer
     sql_on: ${order_items.order_id} = ${orders.id} ;;
@@ -75,26 +78,28 @@ explore: order_items {
   }
 }
 
-explore: events {
-  view_name: events
-  extends: [order_items]
+explore: events {}
 
-  join: users {
-    type: left_outer
-    view_label: "Events"
-    sql_on: ${events.user_id} = ${users.id} ;;
-    relationship: many_to_one
-  }
-  join: orders {
-    sql_on: ${orders.user_id} = ${users.id};;
-    relationship: many_to_one
-  }
-  join: order_items
-  {
-    sql_on: ${order_items.order_id} = ${orders.id};;
-    relationship: many_to_one
-  }
-}
+# explore: events {
+#   view_name: events
+#   extends: [order_items]
+
+#   join: users {
+#     type: left_outer
+#     view_label: "Events"
+#     sql_on: ${events.user_id} = ${users.id} ;;
+#     relationship: many_to_one
+#   }
+#   join: orders {
+#     sql_on: ${orders.user_id} = ${users.id};;
+#     relationship: many_to_one
+#   }
+#   join: order_items
+#   {
+#     sql_on: ${order_items.order_id} = ${orders.id};;
+#     relationship: many_to_one
+#   }
+# }
 
 explore: orders {
   join: users {

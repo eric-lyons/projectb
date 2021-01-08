@@ -60,12 +60,26 @@ view: order_items {
       quarter,
       year
     ]
-    sql: CONVERT_TZ(${TABLE}.returned_at,'US/Eastern','Europe/Paris') ;;
+    sql: ${TABLE}.returned_at ;;
   }
+
+
+
+
+  dimension: result_date {
+    sql:1=1;;
+    html:
+    {% if orders.created_raw._value < order_items.returned_raw._value  %}
+    {{ orders.created_date._value }}
+      {% else %}
+      {{ order_items.returned_date._value }}
+      {% endif %} ;;
+  }
+
 
   dimension: sale_price {
     type: number
-    sql: ${TABLE}.sale_price ;;
+    sql: ${TABLE}.sale_price - 100;;
   }
 
   dimension: date_yesno {
