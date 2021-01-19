@@ -9,13 +9,13 @@ view: events {
   }
 
   dimension: filter_val1 {
-    type: string
-    sql: {% date_start events.date_filter %} ;;
+    type: number
+    sql: UNIX_TIMESTAMP(${created_raw}) ;;
   }
 
   dimension: filter_val2 {
-    type: string
-    sql: {% date_end events.date_filter %} ;;
+    type: number
+    sql: NULL ;;
   }
 
 

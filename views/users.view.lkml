@@ -4,7 +4,20 @@ view: users {
 
 
   filter: date_filter {
+    type: date_time
+  }
+
+  parameter: datetime {
+    type: date_time
+  }
+
+  parameter: date {
     type: date
+  }
+
+  dimension: datetimedim {
+    type: string
+    sql: {% parameter datetime %} ;;
   }
 
   dimension: filter_val1 {

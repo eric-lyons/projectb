@@ -26,6 +26,9 @@ view: orders {
     primary_key: yes
     type: number
     sql: ${TABLE}.id ;;
+    html: {% for counter in (0..9) %}
+    {{counter}} {{value}}
+      {% endfor %} ;;
   }
 
   dimension_group: created {
@@ -40,6 +43,32 @@ view: orders {
       year
     ]
     sql: ${TABLE}.created_at ;;
+  }
+
+  dimension: UNIX1 {
+    sql: UNIX_TIMESTAMP(DATE_ADD(${created_raw},INTERVAL 10 DAY)) ;;
+    type: number
+  }
+
+  dimension: UNIX2 {
+    type: number
+    sql: UNIX_TIMESTAMP(${created_date}) ;;
+  }
+
+  measure: operator {
+    type: string
+    sql: 1=1 ;;
+    html:    {% if UNIX1._value <= UNIX2._value %}
+
+                    "Hello"
+
+                  {% else %}
+
+                  "good bye"
+
+                  {% endif %} ;;
+
+
   }
 
   parameter: date_param {
@@ -97,26 +126,26 @@ view: orders {
 
   measure: count {
     type: count
-    html:
-    {% if value < 100 %}
-    <div class="vis" style="width: 400px; background-color: #808080; border: 2px solid #000;
-    border-radius: 15px; -moz-border-radius: 15px">
+    # html:
+    # {% if value < 100 %}
+    # <div class="vis" style="width: 400px; background-color: #808080; border: 2px solid #000;
+    # border-radius: 15px; -moz-border-radius: 15px">
 
-    <div class="vis-single-value" style="background-color: red; font-color:white; width: 200px; border: 2px solid #000;
-    border-radius: 15px; -moz-border-radius: 15px;">{{ rendered_value }}</div></div>
+    # <div class="vis-single-value" style="background-color: red; font-color:white; width: 200px; border: 2px solid #000;
+    # border-radius: 15px; -moz-border-radius: 15px;">{{ rendered_value }}</div></div>
 
-    {% elsif value >1000 %}
-     <div class="vis" style="width: 400px; background-color:#808080; border: 2px solid #000;
-    border-radius: 15px; -moz-border-radius: 15px">
-    <div class="vis-single-value" style="background-color: blue; font-color:white; width: 300px;  border: 2px solid #000;
-    border-radius: 15px; -moz-border-radius: 15px;">{{ rendered_value }}
-    </div></div>
-    {% else %}
-     <div class="vis" style="width: 400px; background-color:  #808080; border: 2px solid #000;
-    border-radius: 15px; -moz-border-radius: 15px">
-    <div class="vis-single-value" style="background-color: black; font-color:white;  width: 400px;  border: 2px solid #000;
-    border-radius: 15px; -moz-border-radius: 15px;">{{ rendered_value }}
-    </div></div>
-    {% endif %};;
+    # {% elsif value >1000 %}
+    # <div class="vis" style="width: 400px; background-color:#808080; border: 2px solid #000;
+    # border-radius: 15px; -moz-border-radius: 15px">
+    # <div class="vis-single-value" style="background-color: blue; font-color:white; width: 300px;  border: 2px solid #000;
+    # border-radius: 15px; -moz-border-radius: 15px;">{{ rendered_value }}
+    # </div></div>
+    # {% else %}
+    # <div class="vis" style="width: 400px; background-color:  #808080; border: 2px solid #000;
+    # border-radius: 15px; -moz-border-radius: 15px">
+    # <div class="vis-single-value" style="background-color: black; font-color:white;  width: 400px;  border: 2px solid #000;
+    # border-radius: 15px; -moz-border-radius: 15px;">{{ rendered_value }}
+    # </div></div>
+    # {% endif %};;
   }
 }
