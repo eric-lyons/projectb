@@ -2,17 +2,30 @@ connection: "thelook"
 
 # include all the views
 include: "/views/**/*.view"
+include: "/eric@thebesteverlookmld@shboard.dashboard"
 
 datagroup: eric_likes_bears_default_datagroup {
   # sql_trigger: SELECT MAX(id) FROM etl_log;;
   max_cache_age: "1 hour"
 }
 
+test: status_is_not_null {
+  explore_source: orders {
+    column: status {}
+    sorts: [orders.status: desc]
+    limit: 1
+  }
+  assert: status_is_not_null {
+    expression: NOT is_null(${orders.status}) ;;
+  }
+}
 
 
 ###HELLO
 
 explore: NJ_TEST {}
+
+explore: pivot_ndt {}
 
 persist_with: eric_likes_bears_default_datagroup
 
@@ -20,29 +33,27 @@ explore: connection_reg_r3 {}
 
 explore: TIME_TEST {}
 
-explore: events {
-  join: users {
-    type: left_outer
-    view_label: "Events"
-    sql_on: ${events.user_id} = ${users.id} ;;
-    relationship: many_to_one
-  }
-  sql_always_where: {% date_start events.date_filter %} = ${users.created_date} ;;
-}
+# explore: events {
+#   join: users {
+#     type: left_outer
+#     view_label: "Events"
+#     sql_on: ${events.user_id} = ${users.id} ;;
+#     relationship: many_to_one
+#   }
+#   sql_always_where: {% date_start events.date_filter %} = ${users.created_date} ;;
+# }
 
 explore: flights {}
 
 explore: imgsrc1onerroralert2 {}
 
 explore: inventory_items {
-  join: products {
-    type: left_outer
-    sql_on: ${inventory_items.product_id} = ${products.id} ;;
-    relationship: many_to_one
-  }
+
+
 }
 
 explore: order_items {
+  always_filter: {filters:[users.test_filter: "New^_Jersey, New^_York"]}
   join: orders {
     type: left_outer
     sql_on: ${order_items.order_id} = ${orders.id} ;;
@@ -68,6 +79,29 @@ explore: order_items {
   }
 }
 
+explore: events {}
+
+# explore: events {
+#   view_name: events
+#   extends: [order_items]
+
+#   join: users {
+#     type: left_outer
+#     view_label: "Events"
+#     sql_on: ${events.user_id} = ${users.id} ;;
+#     relationship: many_to_one
+#   }
+#   join: orders {
+#     sql_on: ${orders.user_id} = ${users.id};;
+#     relationship: many_to_one
+#   }
+#   join: order_items
+#   {
+#     sql_on: ${order_items.order_id} = ${orders.id};;
+#     relationship: many_to_one
+#   }
+# }
+
 explore: orders {
   join: users {
     type: left_outer
@@ -75,6 +109,7 @@ explore: orders {
     relationship: many_to_one
   }
 }
+
 
 explore: products {}
 
@@ -96,40 +131,26 @@ explore: user_data {
   }
 }
 
-explore: users {}
+test: order_id_is_unique {
+  explore_source: orders {
+    column: id {}
+    column: count {}
+    sorts: [orders.count: desc]
+    limit: 1
+  }
+  assert: order_id_is_unique {
+    expression: ${orders.count} = 1 ;;
+  }
+}
 
-explore: vvimgsrc1onerroralert2ll {}
+explore: users {
+  from: users
+  view_name: users
+ # sql_always_where: ${letter_yesno} =  True ;;
+}
 
-explore: xin_test_for_bug2 {}
-
-explore: xss_test {}
-
-explore: xss_test_1 {}
-
-explore: xss_test_10 {}
-
-explore: xss_test_11 {}
-
-explore: xss_test_12 {}
-
-explore: xss_test_13 {}
-
-explore: xss_test_14 {}
-
-explore: xss_test_15 {}
-
-explore: xss_test_16 {}
-
-explore: xss_test_2 {}
-
-explore: xss_test_4 {}
-
-explore: xss_test_5 {}
-
-explore: xss_test_6 {}
-
-explore: xss_test_7 {}
-
-explore: xss_test_8 {}
-
-explore: xss_test_9 {}
+explore: extended_users_explore  {
+  extends: [users]
+  from: extended_users
+  view_name: extended_users
+}

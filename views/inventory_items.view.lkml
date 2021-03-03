@@ -1,6 +1,7 @@
 view: inventory_items {
   sql_table_name: demo_db.inventory_items ;;
   drill_fields: [id]
+  view_label: " 2"
 
   dimension: id {
     primary_key: yes
@@ -17,6 +18,12 @@ view: inventory_items {
   dimension: cost {
     type: number
     sql: ${TABLE}.cost ;;
+
+  }
+
+  measure: max_cost {
+    type: max
+    sql: ${cost} ;;
   }
 
   dimension_group: created {
@@ -31,6 +38,22 @@ view: inventory_items {
       year
     ]
     sql: ${TABLE}.created_at ;;
+  }
+
+  dimension: diff {
+    sql: DATEDIFF(${sold_date}, ${created_date}) ;;
+    type: number
+  }
+
+  dimension: only_positive {
+    type: number
+    sql:  CASE WHEN ${diff} >= 0 THEN ${diff}
+    ELSE NULL END;;
+  }
+
+  measure: average_diff {
+    sql: ${only_positive} ;;
+    type: average
   }
 
   dimension: product_id {

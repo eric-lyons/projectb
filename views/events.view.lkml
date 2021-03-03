@@ -1,9 +1,40 @@
 view: events {
-  sql_table_name:
-    -- if prod -- demo_db.events2
-    -- if dev -- demo_db.events
+  sql_table_name: demo_db.events
 ;;
   drill_fields: [id]
+
+  filter: date_filter {
+    type: date
+    suggestions: ["five days", "four days", "three days"]
+  }
+
+  dimension: filter_val1 {
+    type: number
+    sql: UNIX_TIMESTAMP(${created_raw}) ;;
+  }
+
+  dimension: filter_val2 {
+    type: number
+    sql: NULL ;;
+  }
+
+
+
+  parameter: date {
+    type: number
+    allowed_value: {label: "5 days ago" value: "5"}
+    allowed_value: {label: "4 days ago" value: "4"}
+    allowed_value: {label: "3 days ago" value: "3"}
+    allowed_value: {label: "2 days ago" value: "2"}
+    allowed_value: {label: "1 days ago" value: "1"}
+  }
+
+  dimension: date_field_relative {
+    type: date
+    sql: CURDATE() ;;
+  }
+
+
 
   dimension: id {
     primary_key: yes
@@ -11,13 +42,23 @@ view: events {
     sql: ${TABLE}.id ;;
   }
 
+  parameter: date_parameter {
+    type: date_time
+  }
+
+
   parameter: test_param {
     type: unquoted
 
   }
 
-  filter: date_filter {
+  filter: cool_date_filter {
     type: date
+  }
+
+  dimension: date_filter_diff {
+    type: number
+    sql: DATEDIFF({% date_start cool_date_filter %}, {% date_end cool_date_filter %}) ;;
   }
 
   parameter: country {
@@ -53,6 +94,7 @@ view: events {
       year
     ]
     sql: ${TABLE}.created_at ;;
+    html: {{ rendered_value | date: "%d %m, %yyyy" }} ;;
   }
 
   dimension: type_id {

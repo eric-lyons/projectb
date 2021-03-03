@@ -1,6 +1,7 @@
 view: products {
   sql_table_name: demo_db.products ;;
   drill_fields: [id]
+  view_label: "1"
 
   dimension: id {
     primary_key: yes
@@ -14,6 +15,17 @@ view: products {
   }
 
   dimension: category {
+    type: string
+    sql: ${TABLE}.category ;;
+  }
+
+  dimension: hashed {
+    type: string
+    sql: ${brand} ;;
+    html:  {{ products.category._value |  md5 }} ;;
+  }
+
+  measure: category_2 {
     type: string
     sql: ${TABLE}.category ;;
   }
