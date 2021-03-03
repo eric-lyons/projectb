@@ -23,6 +23,19 @@ view: users {
     sql: ${TABLE}.age ;;
   }
 
+  dimension: yesno {
+    sql: CASE WHEN ${age} > 40 THEN '1'
+    else '0'
+    end;;
+    type:  number
+    html:  {% if value == '1' %}
+    yes
+    {% else %}
+    no
+    {% endif %}
+    ;;
+  }
+
   dimension: city {
     type: string
     sql: ${TABLE}.city ;;
@@ -48,6 +61,11 @@ view: users {
     (
       SELECT ${TABLE}.state ORDER BY ${TABLE}.state DESC;
     ) ;;
+  }
+
+  dimension: test {
+    type: number
+    sql: hour(${created_time});;
   }
 
   dimension: country {
@@ -90,9 +108,11 @@ view: users {
     sql: ${TABLE}.last_name ;;
   }
 
-  dimension: state {
+  dimension: not_state {
     type: string
     sql: ${TABLE}.state ;;
+    html: {{ value }} <br>
+    <div style="height: width:800%;"> "Title goes here" "Title goes here "Title goes here "Title goes here "Title goes here "Title goes here <br>"Title goes here "Title goes here "Title goes here "Title goes here "Title goes here</div>;;
   }
 
   dimension: zip {
@@ -102,12 +122,12 @@ view: users {
 
   measure: count1 {
     type: count
-    filters: {field: state value:"New Jersey"}
+    filters: {field: not_state value:"New Jersey"}
   }
 
   measure: count2 {
     type: count
-    filters: {field: state value:"New York"}
+    filters: {field: not_statestate value:"New York"}
   }
 
   measure: percentile {
@@ -119,13 +139,13 @@ view: users {
   measure: sum1 {
     type: sum
     sql: ${id} ;;
-    filters: {field: state value:"New Jersey"}
+    filters: {field: not_statestate value:"New Jersey"}
   }
 
   measure: sum2 {
     type: sum
     sql: ${id} ;;
-    filters: {field: state value:"New York"}
+    filters: {field: not_state value:"New York"}
   }
 
   measure: percentile2 {

@@ -5,7 +5,7 @@ view: TIME_TEST {
       column: state {}
       column: gender {}
       filters: {
-        field: users.state
+        field: users.not_state
         value: "New Jersey"
       }
     }

@@ -6,12 +6,15 @@ view: order_items {
     primary_key: yes
     type: number
     sql: ${TABLE}.id ;;
+    drill_fields: [inventory_items.id, order_id]
+    html: {{value}} <br> "Title Goes here";;
   }
 
   dimension: inventory_item_id {
     type: number
     # hidden: yes
     sql: ${TABLE}.inventory_item_id ;;
+    html: {{value}} <br> "Title Goes here";;
   }
 
   dimension: order_id {
