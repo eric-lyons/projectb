@@ -336,18 +336,12 @@ parameter: change {
     sql: ${TABLE}.last_name ;;
   }
 
-  dimension: not_state {
+  dimension: state {
     type: string
     sql: ${TABLE}.state ;;
-<<<<<<< HEAD
     html: {{ value }} <br>
     <div style="height: width:800%;"> "Title goes here" "Title goes here "Title goes here "Title goes here "Title goes here "Title goes here <br>"Title goes here "Title goes here "Title goes here "Title goes here "Title goes here</div>;;
-=======
-    link: {
-      label: "TEST Drill Look"
-      url:"/looks/1955"
-    }
-  }
+}
 
   dimension: crazy_test {
     type: string
@@ -386,7 +380,6 @@ parameter: change {
   dimension: test_yesno_in {
     type: yesno
     sql: ${state} IN("New Jersey", "New York", "California") ;;
->>>>>>> branch 'master' of git@github.com:eric-lyons/barebears_of_lookml.git
   }
 
   dimension: zip {
@@ -396,20 +389,13 @@ parameter: change {
 
   measure: count1 {
     type: count
-<<<<<<< HEAD
-    filters: {field: not_state value:"New Jersey"}
-=======
-    filters: {field: gender value:"m"}
->>>>>>> branch 'master' of git@github.com:eric-lyons/barebears_of_lookml.git
+
+    filters: {field: state value:"New Jersey"}
   }
 
   measure: count2 {
     type: count
-<<<<<<< HEAD
-    filters: {field: not_statestate value:"New York"}
-=======
-    filters: {field: gender value:"f"}
->>>>>>> branch 'master' of git@github.com:eric-lyons/barebears_of_lookml.git
+    filters: {field: state value:"New York"}
   }
 
   measure: percentile {
@@ -421,13 +407,13 @@ parameter: change {
   measure: sum1 {
     type: sum
     sql: ${id} ;;
-    filters: {field: not_statestate value:"New Jersey"}
+    filters: {field: state value:"New Jersey"}
   }
 
   measure: sum2 {
     type: sum
     sql: ${id} ;;
-    filters: {field: not_state value:"New York"}
+    filters: {field: state value:"New York"}
   }
 
   measure: percentile2 {
