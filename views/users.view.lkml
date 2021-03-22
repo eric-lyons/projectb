@@ -7,6 +7,11 @@ view: users {
     type: date_time
   }
 
+  measure: average_age {
+    type: average
+    sql: ${age} ;;
+  }
+
   parameter: datetime {
     type: date_time
   }
@@ -208,6 +213,12 @@ view: users {
   dimension: age {
     type: number
     sql: ${TABLE}.age ;;
+    html:
+    {% if value < users.average_age._value %}
+    <p style="color: green; font-size: 100%">{{ rendered_value }}</p>
+    {% else %}
+    <p style="color: red; font-size: 100%">{{ rendered_value }}</p>
+    {% endif %};;
 
    }
 

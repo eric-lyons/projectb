@@ -6,6 +6,11 @@ view: orders {
     type: string
   }
 
+ filter: time {
+   type: date
+  convert_tz: no
+ }
+
 
   parameter: date {
     type: number

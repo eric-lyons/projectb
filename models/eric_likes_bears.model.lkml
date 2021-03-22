@@ -20,9 +20,9 @@ test: status_is_not_null {
   }
 }
 
-
+explore: a {}
 ###HELLO
-
+explore: c {}
 explore: NJ_TEST {}
 
 explore: pivot_ndt {}
@@ -108,6 +108,7 @@ explore: orders {
     sql_on: ${orders.user_id} = ${users.id} ;;
     relationship: many_to_one
   }
+  sql_always_where: {% condition orders.time %} ${created_date} {% endcondition %} ;;
 }
 
 
@@ -146,7 +147,7 @@ test: order_id_is_unique {
 explore: users {
   from: users
   view_name: users
- # sql_always_where: ${letter_yesno} =  True ;;
+ sql_always_where: ${state} = "New Jersey";;
 }
 
 explore: extended_users_explore  {
