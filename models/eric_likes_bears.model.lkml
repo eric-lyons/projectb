@@ -147,7 +147,7 @@ test: order_id_is_unique {
 explore: users {
   from: users
   view_name: users
- sql_always_where: ${state} = "New Jersey";;
+ always_filter: {filters:[users.state:"New Jersey"]}
 }
 
 explore: extended_users_explore  {
