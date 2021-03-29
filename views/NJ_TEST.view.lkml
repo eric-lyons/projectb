@@ -46,6 +46,7 @@ view: NJ_TEST {
   dimension: users_state {
     type: string
     sql: ${TABLE}.`users.state` ;;
+    drill_fields: [users_zip,users_age]
   }
 
   dimension: users_last_name {

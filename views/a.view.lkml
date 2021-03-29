@@ -1,10 +1,13 @@
 view: a {
   derived_table: {
     sql: SELECT
-          `id` AS `orders.id`
-      FROM
-          `demo_db`.`orders` AS `orders`
+          orders.status  AS `orders.status`,
+          orders.id  AS `orders.id`,
+              (DATE(CONVERT_TZ(orders.created_at ,'UTC','America/Los_Angeles'))) AS `orders.created_date`
+      FROM demo_db.orders  AS orders
 
+      WHERE {% date_start date_test %} < CURDATE()
+      GROUP BY 1,2,3
        ;;
   }
 
@@ -13,13 +16,43 @@ view: a {
     drill_fields: [detail*]
   }
 
+  dimension: orders_status {
+    type: string
+    sql: ${TABLE}.`orders.status` ;;
+  }
+
   dimension: orders_id {
     type: number
-    primary_key: yes
     sql: ${TABLE}.`orders.id` ;;
   }
 
-  set: detail {
-    fields: [orders_id]
+  dimension: orders_created_date {
+    type: date
+    sql: ${TABLE}.`orders.created_date` ;;
   }
+
+  filter: date_test {
+    type: date
+  }
+
+  set: detail {
+    fields: [orders_status, orders_id, orders_created_date]
+  }
+}
+
+test: data_test_templated_filter {
+  explore_source: a {
+    column: orders_status {
+      field: a.orders_status
+    }
+    column: count {
+      field: a.count
+    }
+      filters: [a.date_test: "2018/11/06",
+    a.orders_status: "complete"]
+    }
+
+    assert: count_expected {
+      expression: ${a.count} = 31377 ;;
+    }
 }

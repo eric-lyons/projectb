@@ -191,12 +191,17 @@ view: users {
 
   dimension: contain_string {
     type: string
-    sql: CONCAT('%',{% parameter parameter_named_string %},'%') ;;
+    sql: {% parameter parameter_named_string %};;
+  }
+
+  dimension: yesno2 {
+    type: yesno
+    sql: %{} ;;
   }
 
   dimension: yesno_filter {
     type: yesno
-    sql: ${state} LIKE ${contain_string} ;;
+    sql: ${state} IN (${contain_string}) ;;
   }
 
   dimension: namedimension {
@@ -350,10 +355,8 @@ parameter: change {
   dimension: state {
     type: string
     sql: ${TABLE}.state ;;
-    html: {{ value }} <br>
-    <div style="height: width:800%;"> "Title goes here" "Title goes here "Title goes here "Title goes here "Title goes here "Title goes here <br>"Title goes here "Title goes here "Title goes here "Title goes here "Title goes here</div>;;
-}
-
+    html: {{ value }} ;;
+    }
   dimension: crazy_test {
     type: string
     sql: CASE WHEN ${created_year} = YEAR(CURDATE())-1 THEN CONCAT(" ",CAST(YEAR(CURDATE()) AS CHAR))

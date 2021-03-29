@@ -99,6 +99,27 @@ view: order_items {
       }
   }
 
+  dimension: monthback1 {
+    type: number
+    sql: DATEDIFF(CURDATE(),${returned_date});;
+  }
+
+  dimension: monthback2 {
+    type: number
+    sql: DATEDIFF(CURDATE(),DATE_ADD(${returned_date}, INTERVAL 1 month));;
+  }
+
+
+  dimension: yesno_test {
+    type: yesno
+    sql: ${monthback1} - ${monthback2} <=60 ;;
+  }
+
+  measure: filtered_count {
+    type: count
+    filters: [yesno_test: "yes"]
+  }
+
   measure: count {
     type: count
     drill_fields: [id, orders.id, inventory_items.id]

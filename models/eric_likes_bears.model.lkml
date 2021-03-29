@@ -3,6 +3,7 @@ connection: "thelook"
 # include all the views
 include: "/views/**/*.view"
 include: "/eric@thebesteverlookmld@shboard.dashboard"
+include: "/dashboard_lookml.dashboard"
 
 datagroup: eric_likes_bears_default_datagroup {
   # sql_trigger: SELECT MAX(id) FROM etl_log;;
@@ -21,8 +22,7 @@ test: status_is_not_null {
 }
 
 explore: a {}
-###HELLO
-explore: c {}
+
 explore: NJ_TEST {}
 
 explore: pivot_ndt {}
@@ -108,7 +108,7 @@ explore: orders {
     sql_on: ${orders.user_id} = ${users.id} ;;
     relationship: many_to_one
   }
-  sql_always_where: {% condition orders.time %} ${created_date} {% endcondition %} ;;
+
 }
 
 
@@ -144,14 +144,30 @@ test: order_id_is_unique {
   }
 }
 
+
 explore: users {
-  from: users
-  view_name: users
- always_filter: {filters:[users.state:"New Jersey"]}
+  always_filter: { filters: [users.created_date: "2018-05-18 12:00:00 to today"]}
 }
 
-explore: extended_users_explore  {
-  extends: [users]
-  from: extended_users
-  view_name: extended_users
+
+explore: +orders {
+  label: "Sales Totals"
+  join: order_items {
+    sql_on: ${orders.id} = ${order_items.id} ;;
+    relationship: many_to_one
+  }
+  aggregate_table: sales_monthly {
+    materialization: {
+      persist_for: "24 hours"
+    }
+    query: {
+      dimensions: [created_month, orders.status]
+      measures: [orders.count]
+      filters: [orders.status: "cancelled, complete, pending"]
+      timezone: "America/Los_Angeles"
+    }
+
+
+  }
+  # other explore parameters
 }
