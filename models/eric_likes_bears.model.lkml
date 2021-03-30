@@ -146,7 +146,11 @@ test: order_id_is_unique {
 
 
 explore: users {
-  always_filter: { filters: [users.created_date: "2018/05"]}
+  conditionally_filter: {
+    filters: [users.created_month: "05"]
+    unless: [users.created_date, users.created_month, users.created_year, users.created_time]
+  }
+  #rwst
 }
 
 
