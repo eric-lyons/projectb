@@ -146,7 +146,7 @@ test: order_id_is_unique {
 
 
 explore: users {
-  always_filter: { filters: [users.created_date: "2018-05-18 12:00:00 to today"]}
+  always_filter: { filters: [users.created_date: "2018/05"]}
 }
 
 
