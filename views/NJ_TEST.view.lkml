@@ -1,4 +1,5 @@
 # HELLO WORLD
+# hello world two
 view: NJ_TEST {
   derived_table: {
     sql: SELECT
