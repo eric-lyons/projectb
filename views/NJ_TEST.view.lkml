@@ -1,8 +1,5 @@
 # HELLO WORLD
-# hello world two
-<<<<<<< HEAD
-##FIRST COMMIT
-=======
+# 1st
 #second
 >>>>>>> branch 'main' of git@github.com:eric-lyons/barebears_of_lookml.git
 view: NJ_TEST {
