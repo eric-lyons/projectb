@@ -1,6 +1,10 @@
 # HELLO WORLD
 # hello world two
+<<<<<<< HEAD
 ##FIRST COMMIT
+=======
+#second
+>>>>>>> branch 'main' of git@github.com:eric-lyons/barebears_of_lookml.git
 view: NJ_TEST {
   derived_table: {
     sql: SELECT
