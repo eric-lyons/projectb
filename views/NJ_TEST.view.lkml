@@ -1,12 +1,4 @@
-# HELLO WORLD
-<<<<<<< HEAD
-# 1st
-=======
-# hello world two
-# 2nd
->>>>>>> branch 'main' of git@github.com:eric-lyons/barebears_of_lookml.git
-#second
->>>>>>> branch 'main' of git@github.com:eric-lyons/barebears_of_lookml.git
+#This was done in github
 view: NJ_TEST {
   derived_table: {
     sql: SELECT
