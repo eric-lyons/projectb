@@ -1,4 +1,5 @@
 #This was done in github
+## Squash this
 view: NJ_TEST {
   derived_table: {
     sql: SELECT
