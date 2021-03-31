@@ -147,7 +147,7 @@ test: order_id_is_unique {
 
 explore: users {
   conditionally_filter: {
-    filters: [users.created_month: "05"]
+    filters: [users.created_date: "before 2018-01-01 12:00:00"]
     unless: [users.created_date, users.created_month, users.created_year, users.created_time]
   }
   #rwst
