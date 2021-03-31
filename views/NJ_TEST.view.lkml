@@ -1,3 +1,4 @@
+#This was done in github
 view: NJ_TEST {
   derived_table: {
     sql: SELECT
