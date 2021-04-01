@@ -331,10 +331,37 @@ parameter: change {
   dimension: email {
     type: string
     sql: ${TABLE}.email ;;
+    tags: ["email"]
+    action: {
+      label: "Data Action Example "
+      url: "https://hooks.zapier.com/hooks/catch/8519594/owdnwcz/silent/"
+      form_param: {
+        name: "Pick your favorite Beatle"
+        type: select
+        label: "Beatles"
+        required: yes
+        option: {
+          label: "Singer"
+          name: "John"
+        }
+        option: {
+          label: "Drummer"
+          name: "Ringo"
+        }
+        option: {
+          label: "Guitar"
+          name: "George"
+        }
+        option: {
+          label: "Bass"
+          name: "Paul"
+        }
+        option: {
+          label: "Friend"
+          name: "Yoko"
+        }}}
+  }
 
-    link: {
-      label: "ERIC_TEST"
-      url: "/dashboards/sara_dasb_test::refresh_dashboard_"}}
 
   dimension: first_name {
     type: string
