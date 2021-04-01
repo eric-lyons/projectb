@@ -13,3 +13,9 @@ constant: connect {
 
 
 }
+
+visualization: {
+  id: "eric_picture"
+  file: "eric_vis.js"
+  label: "ERIC"
+}
