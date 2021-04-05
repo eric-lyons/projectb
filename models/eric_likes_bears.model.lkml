@@ -5,6 +5,11 @@ include: "/views/**/*.view"
 include: "/eric@thebesteverlookmld@shboard.dashboard"
 include: "/dashboard_lookml.dashboard"
 
+access_grant: not_newjersey {
+  user_attribute: erics_favorite_state
+  allowed_values: ["New York"]
+}
+
 datagroup: eric_likes_bears_default_datagroup {
   # sql_trigger: SELECT MAX(id) FROM etl_log;;
   max_cache_age: "1 hour"
@@ -144,13 +149,13 @@ test: order_id_is_unique {
   }
 }
 
+access_grant: not_newjersey {
+  user_attribute: erics_favorite_state
+  allowed_values: [ "New York"]
+}
 
 explore: users {
-  conditionally_filter: {
-    filters: [users.created_date: "before 2018-01-01 12:00:00"]
-    unless: [users.created_date, users.created_month, users.created_year, users.created_time]
-  }
-  #rwst
+
 }
 
 

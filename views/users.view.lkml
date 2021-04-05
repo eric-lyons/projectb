@@ -1,6 +1,5 @@
 view: users {
   sql_table_name: demo_db.users ;;
-  view_label: " 1"
 
 
   filter: date_filter {
@@ -426,6 +425,7 @@ parameter: change {
   dimension: zip {
     type: zipcode
     sql: ${TABLE}.zip ;;
+    required_access_grants: [erics_favorite_state]
   }
 
   measure: count1 {
