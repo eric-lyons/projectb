@@ -98,6 +98,7 @@ view: order_items {
     sql: ${TABLE}.sale_price - 100;;
     html: {{value | round }} hours ;;
   }
+  #new
 
   dimension: date_yesno {
     type: yesno
