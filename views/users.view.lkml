@@ -427,7 +427,7 @@ parameter: change {
   dimension: zip {
     type: zipcode
     sql: ${TABLE}.zip ;;
-    required_access_grants: [not_newjersey]
+   # required_access_grants: [not_newjersey]
   }
 
   measure: count1 {

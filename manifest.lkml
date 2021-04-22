@@ -19,3 +19,10 @@ visualization: {
   file: "eric_vis.js"
   label: "ERIC"
 }
+
+
+
+# The project to import
+local_dependency: {
+  project: "imported_lool"
+}
