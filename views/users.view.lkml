@@ -487,6 +487,11 @@ parameter: change {
 
   }
 
+  dimension:yesnofilter {
+    type: yesno
+    sql: ${state} IN ("New Jersey", "New York", "California") ;;
+  }
+
   dimension:  eric_test_this {
     type: yesno
     sql: ${age} = 29 or ${age} = 33 ;;
