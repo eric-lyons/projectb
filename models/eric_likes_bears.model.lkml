@@ -14,6 +14,8 @@ datagroup: eric_likes_bears_default_datagroup {
   # sql_trigger: SELECT MAX(id) FROM etl_log;;
   max_cache_age: "1 hour"
 }
+#adam test commemt
+#second comment
 
 test: status_is_not_null {
   explore_source: orders {
@@ -26,7 +28,6 @@ test: status_is_not_null {
   }
 }
 
-explore: a {}
 
 explore: NJ_TEST {}
 
@@ -57,32 +58,33 @@ explore: inventory_items {
 
 }
 
-explore: order_items {
-  always_filter: {filters:[users.test_filter: "New^_Jersey, New^_York"]}
-  join: orders {
-    type: left_outer
-    sql_on: ${order_items.order_id} = ${orders.id} ;;
-    relationship: many_to_one
-  }
+explore: test_dt {}
+# explore: order_items {
+#   always_filter: {filters:[users.test_filter: "New^_Jersey, New^_York"]}
+#   join: orders {
+#     type: left_outer
+#     sql_on: ${order_items.order_id} = ${orders.id} ;;
+#     relationship: many_to_one
+#   }
 
-  join: inventory_items {
-    type: left_outer
-    sql_on: ${order_items.inventory_item_id} = ${inventory_items.id} ;;
-    relationship: many_to_one
-  }
+#   join: inventory_items {
+#     type: left_outer
+#     sql_on: ${order_items.inventory_item_id} = ${inventory_items.id} ;;
+#     relationship: many_to_one
+#   }
 
-  join: users {
-    type: left_outer
-    sql_on: ${orders.user_id} = ${users.id} ;;
-    relationship: many_to_one
-  }
+#   join: users {
+#     type: left_outer
+#     sql_on: ${orders.user_id} = ${users.id} ;;
+#     relationship: many_to_one
+#   }
 
-  join: products {
-    type: left_outer
-    sql_on: ${inventory_items.product_id} = ${products.id} ;;
-    relationship: many_to_one
-  }
-}
+#   join: products {
+#     type: left_outer
+#     sql_on: ${inventory_items.product_id} = ${products.id} ;;
+#     relationship: many_to_one
+#   }
+#}
 
 explore: events {}
 
@@ -137,6 +139,20 @@ explore: user_data {
   }
 }
 
+explore: order_items {
+  ##cancel_grouping_fields: [orders.eric_case_when_test]
+  join: users {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${orders.user_id} = ${users.id} ;;
+  }
+  join: orders {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${order_items.order_id} = ${orders.id} ;;
+  }
+}
+
 test: order_id_is_unique {
   explore_source: orders {
     column: id {}
@@ -149,10 +165,10 @@ test: order_id_is_unique {
   }
 }
 
-access_grant: not_newjersey {
-  user_attribute: erics_favorite_state
-  allowed_values: [ "New York"]
-}
+# access_grant: not_newjersey {
+#   user_attribute: erics_favorite_state
+#   allowed_values: [ "New York"]
+# }
 
 explore: users {
 

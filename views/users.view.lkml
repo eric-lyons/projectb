@@ -9,6 +9,8 @@ view: users {
   measure: average_age {
     type: average
     sql: ${age} ;;
+    html:
+    <a href="/dashboards/598?SALARY={{ _filters['users.state'] | url_encode }}&SALARY2=%25{{ _filters['users.state'] | url_encode }}"> {{ value }} </a> ;;
   }
 
   parameter: datetime {
@@ -425,7 +427,7 @@ parameter: change {
   dimension: zip {
     type: zipcode
     sql: ${TABLE}.zip ;;
-    required_access_grants: [erics_favorite_state]
+   # required_access_grants: [not_newjersey]
   }
 
   measure: count1 {
@@ -483,6 +485,11 @@ parameter: change {
     {% endif %}
     ;;
 
+  }
+
+  dimension:yesnofilter {
+    type: yesno
+    sql: ${state} IN ("New Jersey", "New York", "California") ;;
   }
 
   dimension:  eric_test_this {

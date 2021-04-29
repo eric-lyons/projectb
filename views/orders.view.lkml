@@ -11,6 +11,12 @@ view: orders {
   convert_tz: no
  }
 
+measure: eric_case_when_test {
+  type: number
+  sql: CASE WHEN ${created_month} = ${users.created_month} THEN ${id} + ${test1} + ${test2}
+  ELSE 0 END;;
+}
+
 
   parameter: date {
     type: number

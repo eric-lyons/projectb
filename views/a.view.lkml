@@ -1,14 +1,35 @@
 view: a {
   derived_table: {
     sql: SELECT
-          orders.status  AS `orders.status`,
-          orders.id  AS `orders.id`,
-              (DATE(CONVERT_TZ(orders.created_at ,'UTC','America/Los_Angeles'))) AS `orders.created_date`
-      FROM demo_db.orders  AS orders
+        users.state  AS `users.state`,
+        users.last_name  AS `users.last_name`,
+        users.id  AS `users.id`,
+        users.first_name  AS `users.first_name`,
+        users.gender  AS `users.gender`,
+        users.email  AS `users.email`,
+        users.city  AS `users.city`,
+        users.age  AS `users.age`,
+        users.zip  AS `users.zip`
+      FROM demo_db.order_items  AS order_items
+      LEFT JOIN demo_db.orders  AS orders ON order_items.order_id = orders.id
+      LEFT JOIN demo_db.users  AS users ON orders.user_id = users.id
 
-      WHERE {% date_start date_test %} < CURDATE()
-      GROUP BY 1,2,3
+      WHERE
+
+
+
+      GROUP BY 1,2,3,4,5,6,7,8,9
+      ORDER BY users.state
+      LIMIT 500
        ;;
+  }
+  #adam comment 3
+
+  parameter: NJ {
+    type: unquoted
+    allowed_value: {label:"NJ" value:"NJ"}
+    allowed_value: {label:"NY" value:"NY"}
+    allowed_value: {label:"NOT_NJ" value:"NOT_NJ"}
   }
 
   measure: count {
@@ -16,43 +37,69 @@ view: a {
     drill_fields: [detail*]
   }
 
-  dimension: orders_status {
+  dimension: users_state {
     type: string
-    sql: ${TABLE}.`orders.status` ;;
+    sql: ${TABLE}.`users.state` ;;
+    drill_fields: [users_zip,users_age]
   }
 
-  dimension: orders_id {
+  dimension: users_last_name {
+    type: string
+    sql: ${TABLE}.`users.last_name` ;;
+  }
+
+  dimension: users_id {
     type: number
-    sql: ${TABLE}.`orders.id` ;;
+    sql: ${TABLE}.`users.id` ;;
+    primary_key: yes
   }
 
-  dimension: orders_created_date {
-    type: date
-    sql: ${TABLE}.`orders.created_date` ;;
+  dimension: users_first_name {
+    type: string
+    sql: ${TABLE}.`users.first_name` ;;
   }
 
-  filter: date_test {
-    type: date
+  dimension: change_this_name {
+    type: string
+    sql: ${TABLE}.`users.first_name` ;;
+  }
+
+  dimension: users_gender {
+    type: string
+    sql: ${TABLE}.`users.gender` ;;
+  }
+
+  dimension: users_email {
+    type: string
+    sql: ${TABLE}.`users.email` ;;
+  }
+
+  dimension: users_city {
+    type: string
+    sql: ${TABLE}.`users.city` ;;
+  }
+
+  dimension: users_age {
+    type: number
+    sql: ${TABLE}.`users.age` ;;
+  }
+
+  dimension: users_zip {
+    type: number
+    sql: ${TABLE}.`users.zip` ;;
   }
 
   set: detail {
-    fields: [orders_status, orders_id, orders_created_date]
+    fields: [
+      users_state,
+      users_last_name,
+      users_id,
+      users_first_name,
+      users_gender,
+      users_email,
+      users_city,
+      users_age,
+      users_zip
+    ]
   }
-}
-
-test: data_test_templated_filter {
-  explore_source: a {
-    column: orders_status {
-      field: a.orders_status
-    }
-    column: count {
-      field: a.count
-    }
-      filters: [a.date_test: "2018/11/06",
-    a.orders_status: "complete"]
-    }
-
-    assert: count_expected {
-      expression: ${a.count} = 31377 ;;
-    }
 }

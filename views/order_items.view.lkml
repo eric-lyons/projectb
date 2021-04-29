@@ -11,7 +11,20 @@ view: order_items {
     html: {{value}} <br> "Title Goes here";;
   }
 
+  parameter: dynamica_sum {
+    type: unquoted
+    allowed_value: { value: "id" }
+    allowed_value: { value: "inventory_item_id" }
+
+  }
+
+  measure: sum_test {
+    type: sum
+    sql: ${TABLE}.{% parameter dynamica_sum %} ;;
+  }
+
   parameter: pick_dimension {
+    type: unquoted
     allowed_value: { value: "inventory" }
     allowed_value: { value: "order" }
     allowed_value: { value: "price" }
@@ -85,6 +98,7 @@ view: order_items {
     sql: ${TABLE}.sale_price - 100;;
     html: {{value | round }} hours ;;
   }
+  #new
 
   dimension: date_yesno {
     type: yesno
