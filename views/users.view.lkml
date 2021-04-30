@@ -263,6 +263,13 @@ parameter: change {
   dimension: city {
     type: string
     sql: ${TABLE}.city ;;
+    order_by_field: new_order
+  }
+
+  dimension: new_order {
+    type: string
+    sql: CASE WHEN ${city} != "Akron" THEN "A"
+    ELSE "B" END;;
   }
 
 
@@ -380,10 +387,27 @@ parameter: change {
     sql: ${TABLE}.last_name ;;
   }
 
+      dimension: eric_test_case {
+        case: {
+          when: {
+            sql: ${gender} = "m" ;;
+            label: "Male"
+          }
+          when: {
+            sql: ${gender} = "f" ;;
+            label: "female"
+          }
+          when: {
+            sql: 1=1 ;;
+            label: "did not answer"
+          }
+        }
+      }
+
   dimension: state {
     type: string
     sql: ${TABLE}.state ;;
-    html: {{ value }} ;;
+    #html: {{ value }} ;;
     }
   dimension: crazy_test {
     type: string
@@ -477,13 +501,13 @@ parameter: change {
   measure: count {
     type: count
     drill_fields: [detail*]
-    html:
-    {% if {{value}} >= 1 %}
-    {{ rendered_value }}
-    {% elsif {{value}} < 1  %}
-    {{ value |  round: 3 | times: 100 }}%
-    {% endif %}
-    ;;
+    # html:
+    # {% if {{value}} >= 1 %}
+    # {{ rendered_value }}
+    # {% elsif {{value}} < 1  %}
+    # {{ value |  round: 3 | times: 100 }}%
+    # {% endif %}
+    ##;;
 
   }
 

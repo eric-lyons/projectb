@@ -11,6 +11,26 @@ view: orders {
   convert_tz: no
  }
 
+  filter: date_filter_test {
+    type: date
+  }
+
+  dimension: start_date {
+    type: date
+    sql: {% date_start date_filter_test %}  ;;
+  }
+
+  dimension: check_last_7_days {
+    type: number
+    sql: DATEDIFF(${start_date},${created_date}) ;;
+  }
+
+  dimension: is_last_seven {
+    sql: ${check_last_7_days} <= 7 ;;
+    type: yesno
+  }
+
+
 measure: eric_case_when_test {
   type: number
   sql: CASE WHEN ${created_month} = ${users.created_month} THEN ${id} + ${test1} + ${test2}

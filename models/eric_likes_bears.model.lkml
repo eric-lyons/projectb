@@ -149,6 +149,8 @@ explore: order_items {
     relationship: many_to_one
     sql_on: ${order_items.order_id} = ${orders.id} ;;
   }
+  sql_always_where: 1=1
+  -- ERIC IS THE SMARTEST MAN ALiVE ;;
 }
 
 test: order_id_is_unique {

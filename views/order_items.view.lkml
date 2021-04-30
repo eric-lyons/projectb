@@ -4,7 +4,7 @@ view: order_items {
   view_label: "10"
 
   dimension: id {
-    primary_key: yes
+    ##primary_key: yes
     type: number
     sql: ${TABLE}.id ;;
     drill_fields: [inventory_items.id, order_id]
@@ -95,8 +95,7 @@ view: order_items {
 
   dimension: sale_price {
     type: number
-    sql: ${TABLE}.sale_price - 100;;
-    html: {{value | round }} hours ;;
+    sql: ${TABLE}.sale_price;;
   }
   #new
 

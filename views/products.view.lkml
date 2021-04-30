@@ -9,20 +9,45 @@ view: products {
     sql: ${TABLE}.id ;;
   }
 
+  filter: date {
+    type: date
+  }
+
+  dimension: start_date {
+    type: date
+    sql: {% date_start date %}  ;;
+  }
+
   dimension: brand {
     type: string
     sql: ${TABLE}.brand ;;
   }
 
+
+
+  parameter: test1 {
+    type: unquoted
+    allowed_value: {value:"Airport"}
+    allowed_value: {value:"City"}
+    allowed_value: {value:"Country"}
+    allowed_value: {value:"Region"}
+  }
+
+  dimension: Departure {
+    label:  "{% assign airport = 'Departure Airport' -%} {% assign region = 'region' -%} {% assign city = 'Departure City' -%}
+{% if test1._parameter_value == 'Airport' %} {{ airport | strip}} {% elsif test1._parameter_value == 'City' %} {{city}}  {% elsif test1._parameter_value == 'Country' %} Departure Country {% elsif test1._parameter_value == 'Region' %} {{ region}} {% else %}  hello {% endif %}"
+    sql: ${brand} ;;
+}
   dimension: category {
     type: string
     sql: ${TABLE}.category ;;
+    label_from_parameter: test1
   }
 
   dimension: hashed {
     type: string
     sql: ${brand} ;;
-    html:  {{ products.category._value |  md5 }} ;;
+    ##html:  {{ products.category._value |  md5 }} ;;
   }
 
   measure: category_2 {
