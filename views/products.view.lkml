@@ -34,9 +34,15 @@ view: products {
   }
 
   dimension: Departure {
-    label:  "{% assign airport = 'Departure Airport' -%} {% assign region = 'region' -%} {% assign city = 'Departure City' -%}
-{% if test1._parameter_value == 'Airport' %} {{ airport | strip}} {% elsif test1._parameter_value == 'City' %} {{city}}  {% elsif test1._parameter_value == 'Country' %} Departure Country {% elsif test1._parameter_value == 'Region' %} {{ region}} {% else %}  hello {% endif %}"
+    label:  "{% assign airport = 'Departure Airport' -%} {% assign region = 'region' -%} {% assign city = 'Departure City' -%} {% assign hello = 'Hello' -%}
+    {% if test1._parameter_value == 'Airport' %}
+    {{ airport | strip}}
+    {% elsif test1._parameter_value == 'City' %} {{city | strip}}
+    {% elsif test1._parameter_value == 'Country' %} Departure Country
+    {% elsif test1._parameter_value == 'Region' %} {{ region | strip}}
+    {% else %}  {{hello | strip}} {% endif %}"
     sql: ${brand} ;;
+
 }
   dimension: category {
     type: string

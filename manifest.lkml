@@ -15,7 +15,7 @@ constant: connect {
 }
 
 visualization: {
-  id: "eric_picture"
+  id: "venn_diagram"
   file: "eric_vis.js"
   label: "ERIC"
 }
