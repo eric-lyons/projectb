@@ -18,6 +18,7 @@ visualization: {
   id: "venn_diagram"
   file: "eric_vis.js"
   label: "ERIC"
+  dependencies: ["https://cdn.jsdelivr.net/gh/looker/visualization-api-examples/examples/common/d3.v4.js"]
 }
 
 
