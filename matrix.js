@@ -1,6 +1,6 @@
 looker.plugins.visualizations.add({
-  id: "matrix",
-  label: "Matrix",
+  id: "ericsmatrix",
+  label: "The Matrix",
   options: {
     color_range: {
       type: "array",

@@ -13,6 +13,23 @@ view: users {
     <a href="/dashboards/598?SALARY={{ _filters['users.state'] | url_encode }}&SALARY2=%25{{ _filters['users.state'] | url_encode }}"> {{ value }} </a> ;;
   }
 
+  measure: count_two_years_ago {
+    type:count
+    filters: [dec_two_ago: "yes"]
+
+  }
+
+
+  dimension: dec_two_ago {
+    type: yesno
+    sql: EXTRACT(MONTH FROM ${created_date}) = 12 and EXTRACT(YEAR FROM ${created_date}) = (EXTRACT(YEAR FROM CURDATE())-2) ;;
+  }
+
+  dimension: eric_test {
+    sql: 1=1 ;;
+    html: "hello world!" ;;
+  }
+
   parameter: datetime {
     type: date_time
   }
