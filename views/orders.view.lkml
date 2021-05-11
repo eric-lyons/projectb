@@ -11,6 +11,11 @@ view: orders {
   convert_tz: no
  }
 
+dimension: end {
+  type: string
+  sql: {% date_end time %} ;;
+}
+
   filter: date_filter_test {
     type: date
   }
