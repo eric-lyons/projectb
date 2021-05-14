@@ -18,6 +18,12 @@ view: order_items {
 
   }
 
+
+  dimension: corre {
+    sql: (SELECT ${users.state} FROM ${users.SQL_TABLE_NAME} WHERE users.state = 'New Jersey' LIMIT 1);;
+    type: string
+  }
+
   measure: sum_test {
     type: sum
     sql: ${TABLE}.{% parameter dynamica_sum %} ;;

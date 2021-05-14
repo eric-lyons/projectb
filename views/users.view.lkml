@@ -38,6 +38,11 @@ view: users {
     type: date
   }
 
+  dimension: minus_three {
+    sql: DATE_SUB(${created_raw}, INTERVAL 3 HOUR) ;;
+    type: date_time
+  }
+
   dimension: datetimedim {
     type: string
     sql: {% parameter datetime %} ;;
@@ -391,8 +396,20 @@ parameter: change {
   dimension: first_name {
     type: string
     sql: ${TABLE}.first_name ;;
+    html: <a href="https://dcl.dev.looker.com/dashboards-next/1408?Email={{users.email}}">{{value}}</a> ;;
 
   }
+
+
+      dimension: string {
+        type: string
+        sql: CASE WHEN CURRENT_DATE() IS NOT NULL THEN "Here is a great string" END ;;
+        link: {
+          label: "Drill Dashboard"
+          url: "dashboards-next/1408?Email={{ _filters['users.email'] | url_encode }}"
+        }
+
+      }
 
   dimension: gender {
     type: string

@@ -142,6 +142,7 @@ explore: user_data {
 explore: order_items {
   ##cancel_grouping_fields: [orders.eric_case_when_test]
   join: users {
+    fields: []
     type: left_outer
     relationship: many_to_one
     sql_on: ${orders.user_id} = ${users.id} ;;
