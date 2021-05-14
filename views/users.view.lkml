@@ -403,7 +403,7 @@ parameter: change {
 
       dimension: string {
         type: string
-        sql: CASE WHEN CURRENT_DATE() IS NOT NULL THEN "Here is a great string" END ;;
+        sql: CASE WHEN CURRENT_DATE() IS NOT NULL THEN "Here is a great string""" END ;;
         link: {
           label: "Drill Dashboard"
           url: "dashboards-next/1408?Email={{ _filters['users.email'] | url_encode }}"
