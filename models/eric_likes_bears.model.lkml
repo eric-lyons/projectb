@@ -10,6 +10,8 @@ access_grant: not_newjersey {
   allowed_values: ["New York"]
 }
 
+explore: extended_object {}
+
 datagroup: eric_likes_bears_default_datagroup {
   # sql_trigger: SELECT MAX(id) FROM etl_log;;
   max_cache_age: "1 hour"
@@ -173,8 +175,13 @@ test: order_id_is_unique {
 #   allowed_values: [ "New York"]
 # }
 
-explore: users {
 
+
+explore: users {
+  sql_always_where:
+    ${users.state} = {% parameter users.state_picker %}
+    &&
+    ${users.state} in ({{ _user_attributes[‘erics_favorite_state'] }});;
 }
 
 

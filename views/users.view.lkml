@@ -19,6 +19,10 @@ view: users {
 
   }
 
+  dimension: hi {
+    sql: {{ _user_attributes['erics_favorite_state'] }} ;;
+  }
+
 
   dimension: dec_two_ago {
     type: yesno
@@ -73,12 +77,16 @@ view: users {
     parameter: state_picker {
       label: "state_picker"
       type: string
-      suggest_dimension: state
-      # allowed_value: { value: "PA" }
-      # allowed_value: { value: "MASS" }
-      # allowed_value: { value: "DL" }
-      # allowed_value: { value: "NJ" }
-      # default_value: "RI"
+       allowed_value: { value: "Pennsylvania" }
+       allowed_value: { value: "New Jersey" }
+       allowed_value: { value: "Texas" }
+       default_value: "RI"
+    }
+
+
+    dimension: state_Val {
+      type: string
+      sql: {% parameter state_picker %} ;;
     }
     #New stuff
 
