@@ -4,6 +4,7 @@ connection: "thelook"
 include: "/views/**/*.view"
 include: "/eric@thebesteverlookmld@shboard.dashboard"
 include: "/dashboard_lookml.dashboard"
+include: "/eric_live_test.dashboard"
 
 access_grant: not_newjersey {
   user_attribute: erics_favorite_state
@@ -141,6 +142,10 @@ explore: user_data {
   }
 }
 
+explore: hello_pat {
+  from: users
+}
+
 explore: order_items {
   ##cancel_grouping_fields: [orders.eric_case_when_test]
   join: users {
@@ -178,10 +183,7 @@ test: order_id_is_unique {
 
 
 explore: users {
-  sql_always_where:
-    ${users.state} = {% parameter users.state_picker %}
-    &&
-    ${users.state} in ({{ _user_attributes[‘erics_favorite_state'] }});;
+
 }
 
 

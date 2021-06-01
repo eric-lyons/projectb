@@ -556,7 +556,22 @@ parameter: change {
   dimension:yesnofilter {
     type: yesno
     sql: ${state} IN ("New Jersey", "New York", "California") ;;
+
   }
+
+
+dimension: website_links {
+type: string
+
+sql: COALESCE(${state},${city},NULL) ;;
+
+html:
+ {% if value != " " %} <a href="https://www.google.com/search?q={{ users.state._value}}&{{users.city._value}}"> Search </a>
+{% else %}
+nothing
+{% endif %}
+;;
+}
 
   dimension:  eric_test_this {
     type: yesno
