@@ -11,7 +11,7 @@ access_grant: not_newjersey {
   allowed_values: ["New York"]
 }
 
-explore: extended_object {}
+#explore: extended_object {}
 
 datagroup: eric_likes_bears_default_datagroup {
   # sql_trigger: SELECT MAX(id) FROM etl_log;;

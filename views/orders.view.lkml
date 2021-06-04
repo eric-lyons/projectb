@@ -108,6 +108,7 @@ measure: eric_case_when_test {
     timeframes: [
       raw,
       time,
+      week_of_year,
       date,
       week,
       month,

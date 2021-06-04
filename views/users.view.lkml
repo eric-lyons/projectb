@@ -566,7 +566,9 @@ type: string
 sql: COALESCE(${state},${city},NULL) ;;
 
 html:
- {% if value != " " %} <a href="https://www.google.com/search?q={{ users.state._value}}&{{users.city._value}}"> Search </a>
+ {% if value != " " %} <a href="https://www.google.com/search?q={{ users.state._value}}&{{users.city._value}}"> <img src="https://i.pinimg.com/originals/8e/a9/15/8ea915c2950a58cad7e184b94d6d4bac.jpg" style="width:50px;height:60px;"> </a>
+
+                       <a href="https://www.google.com/search?q={{ users.state._value}}"> <img src="https://www.zilliondesigns.com/blog/wp-content/uploads/Cat-logos-1280x720.png" style="width:50px;height:60px;"> </a>
 {% else %}
 nothing
 {% endif %}
