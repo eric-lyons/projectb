@@ -183,6 +183,7 @@ test: order_id_is_unique {
 
 
 explore: users {
+  hidden: yes
 
 }
 

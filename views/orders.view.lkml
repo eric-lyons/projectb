@@ -11,6 +11,11 @@ view: orders {
   convert_tz: no
  }
 
+parameter: tables {
+  allowed_value: {label:"Table 1" value:" Table 1"}
+  allowed_value: {label:"Table 2" value:" Table 2"}
+}
+
 dimension: end {
   type: string
   sql: {% date_end time %} ;;
@@ -20,9 +25,14 @@ dimension: end {
     type: date
   }
 
+  dimension: date_end_dim {
+    type: date
+    sql: {% parameter date_end_param %} ;;
+  }
+
   dimension: start_date {
     type: date
-    sql: {% date_start date_filter_test %}  ;;
+    sql: {% date_end date_filter_test %}  ;;
   }
 
   dimension: check_last_7_days {
@@ -192,13 +202,19 @@ measure: eric_case_when_test {
   }
 
   dimension: user_id {
-    type: number
-    # hidden: yes
-    sql: ${TABLE}.user_id ;;
+    type: string
+    sql: 1=1 ;;
+    html:
+    {% if _filters['orders.status'] == 'pending' %}
+        {{orders.status}}
+    {% else %}
+      {{orders.test1}}
+    {% endif %} ;;
   }
 
   measure: count {
     type: count
+    html: "Hello Omri, the count is {{value}}";;
     # html:
     # {% if value < 100 %}
     # <div class="vis" style="width: 400px; background-color: #808080; border: 2px solid #000;

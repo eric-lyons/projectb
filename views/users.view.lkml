@@ -9,8 +9,13 @@ view: users {
   measure: average_age {
     type: average
     sql: ${age} ;;
-    html:
-    <a href="/dashboards/598?SALARY={{ _filters['users.state'] | url_encode }}&SALARY2=%25{{ _filters['users.state'] | url_encode }}"> {{ value }} </a> ;;
+    html:{{ _user_attributes['eric_liquid_test'] }} ;;
+  }
+
+  dimension:hello_world {
+    type: string
+    sql: 1=1 ;;
+    html:{{ _user_attributes['eric_liquid_test'] }} ;;
   }
 
   measure: count_two_years_ago {
@@ -334,6 +339,20 @@ parameter: change {
     map_layer_name: countries
     sql: ${TABLE}.country ;;
   }
+  dimension_group: not_created {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year,
+      month_num
+    ]
+    sql: ${TABLE}.created_at ;;
+  }
 
   dimension_group: created {
     type: time
@@ -449,7 +468,14 @@ parameter: change {
   dimension: state {
     type: string
     sql: ${TABLE}.state ;;
-    #html: {{ value }} ;;
+    html:
+    {% if value == "New Jersey" %}
+    <p style="color: red; font-size: 50%">{{ rendered_value }}</p>
+    {% elsif value  == "New York" %}
+    <p style="color: blue; font-size:80%">{{ rendered_value }}</p>
+    {% else %}
+     <p style="color: black; font-size:100%">{{ rendered_value }}</p>
+    {% endif %};;
     }
   dimension: crazy_test {
     type: string
@@ -552,6 +578,13 @@ parameter: change {
     ##;;
 
   }
+
+      measure: count_tool {
+        type: count
+        drill_fields: [detail*]
+        html: "Hello World" ;;
+
+      }
 
   dimension:yesnofilter {
     type: yesno
