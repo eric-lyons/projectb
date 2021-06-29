@@ -14,11 +14,12 @@ constant: connect {
 
 }
 
+## TEST FOR STEPHEN
 visualization: {
-  id: "matrix-viz-example"
-  url: "https://rawcdn.githack.com/looker/visualization-api-examples/3842430c5addb7fdf016a67fd063484c0f0a7d2a/examples/matrix/matrix.js"
-  label: "Matrix Viz Eric"
-  dependencies: ["https://rawcdn.githack.com/looker/visualization-api-examples/3842430c5addb7fdf016a67fd063484c0f0a7d2a/examples/common/utils.js", "https://rawcdn.githack.com/looker/visualization-api-examples/3842430c5addb7fdf016a67fd063484c0f0a7d2a/examples/common/d3.v4.js"]
+  id: "matrix_heatmap"
+  url: "https://github.com/looker/visualization-api-examples/blob/master/examples/matrix/matrix.js"
+  label: "Matrix Heatmap"
+  dependencies: ["https://github.com/looker/visualization-api-examples/blob/master/examples/common/utils.js", "https://github.com/looker/visualization-api-examples/blob/master/examples/common/d3.v4.js"]
 }
 
 #hi
