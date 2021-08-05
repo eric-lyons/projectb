@@ -25,10 +25,10 @@ dimension: end {
     type: date
   }
 
-  dimension: date_end_dim {
-    type: date
-    sql: {% parameter date_end_param %} ;;
-  }
+  # dimension: date_end_dim {
+  #   type: date
+  #   sql: {% parameter date_end_param %} ;;
+  # }
 
   dimension: start_date {
     type: date
