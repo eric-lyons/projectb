@@ -476,6 +476,7 @@ parameter: change {
   dimension: state {
     type: string
     sql: ${TABLE}.state ;;
+    drill_fields: [state,email]
     # link: {
     #   label: "Drill Dashboard"
     #   url: "/dashboards/1114?&State={{ _filters['users.state'] | url_encode }}"
