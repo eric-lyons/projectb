@@ -11,6 +11,8 @@ access_grant: not_newjersey {
   allowed_values: ["New York"]
 }
 
+#this is a new comment
+
 #explore: extended_object {}
 
 datagroup: eric_likes_bears_default_datagroup {
