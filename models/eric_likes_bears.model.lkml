@@ -11,7 +11,11 @@ access_grant: not_newjersey {
   allowed_values: ["New York"]
 }
 
+<<<<<<< HEAD
 #this is a new comment
+=======
+explore: eric_test {}
+>>>>>>> branch 'main' of https://github.com/eric-lyons/barebears_of_lookml.git
 
 #explore: extended_object {}
 
@@ -144,11 +148,10 @@ explore: user_data {
   }
 }
 
-explore: hello_pat {
-  from: users
-}
 
-explore: order_items {
+
+explore: hello_world {
+  from: order_items
   ##cancel_grouping_fields: [orders.eric_case_when_test]
   join: users {
     fields: []
@@ -159,7 +162,7 @@ explore: order_items {
   join: orders {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${order_items.order_id} = ${orders.id} ;;
+    sql_on: ${hello_world.order_id} = ${orders.id} ;;
   }
   sql_always_where: 1=1
   -- ERIC IS THE SMARTEST MAN ALiVE ;;
@@ -181,10 +184,16 @@ test: order_id_is_unique {
 #   user_attribute: erics_favorite_state
 #   allowed_values: [ "New York"]
 # }
+<<<<<<< HEAD
 
+## This is a comment
+=======
+#save
+>>>>>>> branch 'main' of git@github.com:eric-lyons/barebears_of_lookml.git
 
 
 explore: users {
+  hidden: yes
 
 }
 

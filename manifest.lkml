@@ -14,23 +14,14 @@ constant: connect {
 
 }
 
+## TEST FOR STEPHEN
 visualization: {
-  id: "venn_diagram"
-  file: "eric_vis.js"
-  label: "ERIC"
-  dependencies: ["https://code.jquery.com/jquery-2.2.4.min.js","https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js","https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js","https://cdnjs.cloudflare.com/ajax/libs/d3-legend/1.13.0/d3-legend.min.js"]
-
+  id: "matrix-viz-example"
+  url: "https://rawcdn.githack.com/looker/visualization-api-examples/3842430c5addb7fdf016a67fd063484c0f0a7d2a/examples/matrix/matrix.js"
+  label: "Matrix Viz"
+  dependencies: ["https://rawcdn.githack.com/looker/visualization-api-examples/3842430c5addb7fdf016a67fd063484c0f0a7d2a/examples/common/utils.js", "https://rawcdn.githack.com/looker/visualization-api-examples/3842430c5addb7fdf016a67fd063484c0f0a7d2a/examples/common/d3.v4.js"]
 }
-
-visualization: {
-  id: "ericsmatrix"
-  file: "matrix.js"
-  label: "The Matrix"
-  dependencies: ["https://code.jquery.com/jquery-2.2.4.min.js","https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js","https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js","https://cdnjs.cloudflare.com/ajax/libs/d3-legend/1.13.0/d3-legend.min.js", "https://github.com/looker/visualization-api-examples/blob/master/examples/common/utils.js", "https://github.com/looker/visualization-api-examples/blob/master/examples/common/d3.v4.js"]
-
-}
-
-
+#
 #hi
 
 # The project to import
