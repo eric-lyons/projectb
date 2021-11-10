@@ -98,10 +98,31 @@ view: order_items {
       {% endif %} ;;
   }
 
+  dimension: video {
+    type: string
+    sql: 'hello world' ;;
+    html: <video width="290" height="130" controls preload="none"> <controls> <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4"> </video> ;;
+  }
+
+
 
   dimension: sale_price {
     type: number
     sql: ${TABLE}.sale_price;;
+  }
+
+  dimension: new_price {
+    type: number
+    sql: ${sale_price} *  {% parameter multiplier %};;
+  }
+
+  parameter: multiplier {
+    type: number
+    default_value: "1.0"
+    allowed_value: {value: "1.0"}
+    allowed_value: {value: "3.14"}
+    allowed_value: {value: "2.0"}
+    allowed_value: {value: "10.0"}
   }
   #new
 

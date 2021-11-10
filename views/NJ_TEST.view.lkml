@@ -35,6 +35,7 @@ view: NJ_TEST {
 
   parameter: NJ {
     type: unquoted
+    label: "This is a filter label"
     allowed_value: {label:"NJ" value:"NJ"}
     allowed_value: {label:"NY" value:"NY"}
     allowed_value: {label:"NOT_NJ" value:"NOT_NJ"}

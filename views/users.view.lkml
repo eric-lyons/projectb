@@ -6,6 +6,10 @@ view: users {
     type: date_time
   }
 
+  dimension: string {
+    sql: "hello world" ;;
+  }
+
   measure: average_age {
     type: average
     sql: ${age} ;;
@@ -424,19 +428,23 @@ parameter: change {
     type: string
     sql: ${TABLE}.first_name ;;
     html: <a href="https://dcl.dev.looker.com/dashboards-next/1408?Email={{users.email}}">{{value}}</a> ;;
+    link: {
+      label: "Hello Dashboard"
+      url: "/dashboards-next/1408?Email={{users.email}}"
+    }
 
   }
 
 
-      dimension: string {
-        type: string
-        sql: CASE WHEN CURRENT_DATE() IS NOT NULL THEN "Here is a great string""" END ;;
-        link: {
-          label: "Drill Dashboard"
-          url: "dashboards-next/1408?Email={{ _filters['users.email'] | url_encode }}"
-        }
+      # dimension: string2 {
+      #   type: string
+      #   sql: CASE WHEN CURRENT_DATE() IS NOT NULL THEN "Here is a great string""" END ;;
+      #   link: {
+      #     label: "Drill Dashboard"
+      #     url: "dashboards-next/1408?Email={{ _filters['users.email'] | url_encode }}"
+      #   }
 
-      }
+      # }
 
   dimension: gender {
     type: string
@@ -468,14 +476,11 @@ parameter: change {
   dimension: state {
     type: string
     sql: ${TABLE}.state ;;
-    html:
-    {% if value == "New Jersey" %}
-    <p style="color: red; font-size: 50%">{{ rendered_value }}</p>
-    {% elsif value  == "New York" %}
-    <p style="color: blue; font-size:80%">{{ rendered_value }}</p>
-    {% else %}
-     <p style="color: black; font-size:100%">{{ rendered_value }}</p>
-    {% endif %};;
+    drill_fields: [state,email]
+    # link: {
+    #   label: "Drill Dashboard"
+    #   url: "/dashboards/1114?&State={{ _filters['users.state'] | url_encode }}"
+    # }
     }
   dimension: crazy_test {
     type: string
@@ -522,21 +527,21 @@ parameter: change {
    # required_access_grants: [not_newjersey]
   }
 
-  measure: count1 {
-    type: count
+  # measure: count1 {
+  #   type: count
 
-    filters: {field: state value:"New Jersey"}
-  }
+  #   filters: {field: state value:"New Jersey"}
+  # }
 
-  measure: count2 {
-    type: count
-    filters: {field: state value:"New York"}
-  }
+  # measure: count2 {
+  #   type: count
+  #   filters: {field: state value:"New York"}
+  # }
 
-  measure: percentile {
-    type: number
-    sql: ${count1}/${count2} ;;
-  }
+  # measure: percentile {
+  #   type: number
+  #   sql: ${count1}/${count2} ;;
+  # }
 
 
   measure: sum1 {
@@ -551,40 +556,138 @@ parameter: change {
     filters: {field: state value:"New York"}
   }
 
-  measure: percentile2 {
-    type: number
-    sql: ${sum2}/${count1} ;;
-  }
+  # measure: percentile2 {
+  #   type: number
+  #   sql: ${sum2}/${count1} ;;
+  # }
 
-  measure: ounces {
-  type: count
-  html: {{ value | divided_by: 16 | round: 2 }} lbs {{ value | modulo: 16 | round: 2 }} ounces ;;
-  }
+  # measure: ounces {
+  # type: count
+  # html: {{ value | divided_by: 16 | round: 2 }} lbs {{ value | modulo: 16 | round: 2 }} ounces ;;
+  # }
 
-    measure: feet {
-      type: count
-      html: {{ value | divided_by: 12 | round: 2 }} feet {{ value | modulo: 12 | round: 2 }} inches ;;
-    }
+  #   measure: feet {
+  #     type: count
+  #     html: {{ value | divided_by: 12 | round: 2 }} feet {{ value | modulo: 12 | round: 2 }} inches ;;
+  #   }
 
   measure: count {
     type: count
-    drill_fields: [detail*]
-    # html:
-    # {% if {{value}} >= 1 %}
-    # {{ rendered_value }}
-    # {% elsif {{value}} < 1  %}
-    # {{ value |  round: 3 | times: 100 }}%
-    # {% endif %}
-    ##;;
-
   }
 
-      measure: count_tool {
-        type: count
-        drill_fields: [detail*]
-        html: "Hello World" ;;
+  measure: nj_users {
+    type: count
+    filters: [state: "New Jersey"]
+    drill_fields: [state,id,city]
+  }
+
+  measure: percent_of_nj_users {
+    type: number
+    sql: ${nj_users}/${count} ;;
+    #drill_fields: [state,id,city]
+    value_format: "0.00\%"
+    link: {label: "NJ Users Drill" url:"{{ nj_users._link }}" }
+    }
+
+  measure: percent_of_nj_users_html {
+        type: number
+        sql: ${nj_users}/${count} ;;
+        #drill_fields: [state,id,city]
+        value_format: "0.00\%"
+        html:
+        <a href="/explore/eric_likes_bears/users?fields=users.state,users.id,users.city&f[users.state]=New+Jersey&sorts=users.state&limit=500">{{ value }}</a> ;;
+      }
+
+
+dimension: state_drill {
+
+sql: ${TABLE}.state ;;
+
+html: {% if _explore._name == "order_items" %}
+
+<a href= "/explore/eric_likes_bears/order_items?fields=order_items.detail*&f[users.state]={{ value }}">{{ value }}</a>
+
+{% else %}
+
+<a href="/explore/eric_likes_bears/users?fields=users.detail*&f[users.state]={{ value }}">{{ value }}</a>
+
+{% endif %} ;;}
+
+
+
+
+
+
+
+
+      measure: percent_of_nj_users2 {
+        type: number
+        sql: ${nj_users}/${count} ;;
+        drill_fields: [state,id,city]
+        value_format: "0.00\%"
+         link: {
+          label: "Drill Explore"
+          url:"/explore/eric_likes_bears/users?fields=users.state,users.id,users.city&f[users.state]=New+Jersey&sorts=users.state&limit=500"
+        }
 
       }
+
+      measure: percent_of_nj_users3 {
+        type: number
+        sql: ${nj_users}/${count} ;;
+        drill_fields: [state,id,city]
+        value_format: "0.00\%"
+        link: {
+          label: "Drill Dashboard"
+          url: "/dashboards/946?State=New+Jersey"
+        }
+      }
+
+      filter: state_filter {
+        type: string
+        suggest_dimension: state
+      }
+
+      dimension: state_satisfies_filter {
+        type: yesno
+        hidden: yes
+        sql: {% condition state_filter %} ${state} {% endcondition %} ;;
+      }
+
+      measure: count_dynamic_status {
+        type: count
+        label: "{{ _filters['users.state_filter']}}"
+        filters: [state_satisfies_filter: "yes"]
+        link: {
+          label: "{{ _filters['users.state_filter']}} Drill Explore"
+          url:"/explore/eric_likes_bears/users?fields=users.state,users.id,users.city&f[users.state]={{ _filters['users.state_filter'] | url_encode }}&sorts=users.state&limit=500"
+        }
+
+
+      }
+
+
+      measure: count_dynamic_status_row {
+        type: count
+        label: "Dynamic Count"
+        filters: [state_satisfies_filter: "yes"]
+        link: {
+          label: "Row Level Drill"
+          url:"/explore/eric_likes_bears/users?fields=users.state,users.id,users.city&f[users.state]={{ row['users.state'] | url_encode }}&sorts=users.state&limit=500"
+        }
+
+
+      }
+
+
+
+
+      # measure: count_tool {
+      #   type: count
+      #   drill_fields: [detail*]
+      #   html: "Hello World" ;;
+
+      # }
 
   dimension:yesnofilter {
     type: yesno
@@ -612,6 +715,39 @@ nothing
     type: yesno
     sql: ${age} = 29 or ${age} = 33 ;;
   }
+
+  parameter: dashboards {
+    type: unquoted
+    allowed_value: {value:"London"}
+    allowed_value:{ value:"Paris"}
+    allowed_value:{ value:"Tokyo"}
+
+  }
+
+      dimension: eric_test_dim {
+        sql: "hello" ;;
+        html:
+      {% if dashboards._parameter_value == "London" %}
+      <div style="text-align:left; background-color=grey;">
+      <button style="background-color:black;color:white;"><font color="red">London</font></button><br>
+      <button> <a href="/dashboards/946?State=&Dashboards=Paris">Paris </a></button><br>
+      <button> <a href="/dashboards/946?State=&Dashboards=Tokyo">Tokyo </a></button>
+      </div>
+      {% elsif dashboards._parameter_value == "Paris" %}
+      <div style="text-align:left; background-color=grey;">
+      <button> <a href="/dashboards/946?State=&Dashboards=London"> London </a> </font></button><br>
+      <button style="background-color:black;color:white;"><font color="red"> Paris</button><br>
+      <button> <a href="/dashboards/946?State=&Dashboards=Tokyo"> Tokyo </a></button>
+      </div>
+      {% else %}
+      <div style="text-align:left; background-color=grey;">
+      <button > <a href="/dashboards/946?State=&Dashboards=London">London</a></font></button><br>
+      <button> <a href="/dashboards/946?State=&Dashboards=Paris"> Paris </a> </button><br>
+      <button style="background-color:black;color:white;"><font color="red"> Tokyo</button>
+      </div>
+
+      {% endif %};;
+      }
 
   # ----- Sets of fields for drilling ------
   set: detail {
