@@ -58,27 +58,27 @@ dimension: datetimedim {
   sql: {% parameter datetime %} ;;
 }
 
-dimension: filter_val1 {
-  type: date
-  sql: {% date_start date_filter %} ;;
-}
+# dimension: filter_val1 {
+#   type: date
+#   sql: {% date_start date_filter %} ;;
+# }
 
-dimension: filter_val2 {
-  type: date
-  sql: {% date_end date_filter %} ;;
-}
+# dimension: filter_val2 {
+#   type: date
+#   sql: {% date_end date_filter %} ;;
+# }
 
-dimension: conditional {
-  type: yesno
-  sql: ${filter_val1} >= ${filter_val2} ;;
-}
+# dimension: conditional {
+#   type: yesno
+#   sql: ${filter_val1} >= ${filter_val2} ;;
+# }
 
-dimension: result_date {
-  sql: CASE WHEN ${conditional} = TRUE THEN ${filter_val1}
-    ELSE ${filter_val2} END ;;
+# dimension: result_date {
+#   sql: CASE WHEN ${conditional} = TRUE THEN ${filter_val1}
+#     ELSE ${filter_val2} END ;;
 
 
-}
+# }
 
 parameter: state_picker {
   label: "state_picker"
